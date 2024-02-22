@@ -7,8 +7,8 @@ export class LLMController {
     // TODO: handle mention event
     await say(
       await this.service.execute({
-        // TODO: extract actual prompt from message
         prompt: 'おはようございます',
+        images: [],
       }),
     );
   }
