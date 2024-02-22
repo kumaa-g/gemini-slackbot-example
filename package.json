@@ -39,5 +39,8 @@
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.17.1"
   }
 }
