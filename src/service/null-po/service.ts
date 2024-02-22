@@ -1,5 +1,5 @@
 export class NullPoService {
-  execute(): string {
+  public execute(): string {
     return `\`\`\`
 　　Λ＿Λ　　＼＼
 　 （　・∀・）　　　|　|　ｶﾞｯ
