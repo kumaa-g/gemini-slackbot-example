@@ -28,6 +28,7 @@
   },
   "jest": {
     "moduleFileExtensions": [
+      "js",
       "ts"
     ],
     "moduleNameMapper": {
