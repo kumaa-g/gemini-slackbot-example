@@ -1,6 +1,7 @@
 import { MessageEvent, SayFn } from '@slack/bolt';
 import { LLMService } from '~/service/llm/service';
 import { downloadSlackPrivateFile } from '~/util/slack/download';
+import * as fs from 'fs/promises';
 
 export class LLMController {
   constructor(private readonly service: LLMService) {}
@@ -36,6 +37,11 @@ export class LLMController {
         images,
       }),
     );
+    images.forEach(async (v) => {
+      await fs.rm(v, {
+        force: true,
+      });
+    });
   }
   private stripMention(raw: string): string {
     return raw.replace(/<\@.+>/, '');
