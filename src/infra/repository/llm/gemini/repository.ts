@@ -43,7 +43,7 @@ export class Gemini implements ILLM {
           },
         ],
       });
-    info(`raw generated contents: ${JSON.stringify(res.response.candidates)}`, {
+    info(`raw generated contents: ${JSON.stringify(res.response)}`, {
       component,
     });
     return new MessageOutput(
