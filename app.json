@@ -31,8 +31,8 @@
     "skip": true
   },
   "hooks": {
-    "prebuild": {
-      "command": ["./scripts/build.sh"]
+    "postbuild": {
+      "commands": ["./scripts/build.sh"]
     }
   }
 }
