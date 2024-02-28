@@ -6,7 +6,7 @@ This is Gemini Pro integrated slack (bolt JavaScript framework) sample app. User
 
 ## One Click Deploy Button
 
-[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?revision=main)
+[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?revision=use-artifact-registory)
 
 ### required environment variables
 
