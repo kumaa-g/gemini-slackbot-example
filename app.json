@@ -26,5 +26,13 @@
     "http2": false,
     "concurrency": 50,
     "max-instances": 4
+  },
+  "build": {
+    "skip": true
+  },
+  "hooks": {
+    "prebuild": {
+      "command": ["./scripts/build.sh"]
+    }
   }
 }
