@@ -4,21 +4,33 @@ This is Gemini Pro integrated slack (bolt JavaScript framework) sample app. User
 
 ![slack conversation sample with gemini](./docs/images/sample.png)
 
-## One Click Deploy Button
+## deploy you're environment
 
-[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?revision=use-artifact-registory)
+### [deprecated] One Click Deploy Button
 
-### required environment variables
+Cloud Run one click deploy button is deprecated...
+Currently we are considering the next best deployment process.
+Now just intractive shell script.
 
-- SLACK_SIGNING_SECRET
-  - to deploy your slack workspace
-- SLACK_OAUTH2_BOT_TOKEN
-  - to deploy your slack workspace
-- GCP_PROJECT
-  - VertexAI client needs GCP_PROJECT name ( not project number )
-- GCP_REGION
-  - Gemini Pro needs gcp region
+### deploy from your local
 
-## how to get slack bot tokens
+```sh
+$ npm run deploy
+```
 
-WIP
+Then intractive shell scripts are launched. Input followings
+
+- Google Cloud Platform region
+  - build and deploy target region
+- Google Cloud Platform project name
+  - target project ID not number
+- Google Cloud service account for cloud run
+- slack bot authentication
+  1. slack signing secret
+  2. slack oauth2 token for bot
+
+## Google Cloud Service Account
+
+only one Google Cloud Permission
+
+- "aiplatform.endpoints.predict"
