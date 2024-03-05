@@ -26,5 +26,13 @@
     "http2": false,
     "concurrency": 50,
     "max-instances": 4
+  },
+  "build": {
+    "skip": true
+  },
+  "hooks": {
+    "postbuild": {
+      "commands": ["./scripts/build.sh"]
+    }
   }
 }
