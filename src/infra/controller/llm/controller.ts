@@ -6,6 +6,7 @@ import * as fs from 'fs/promises';
 export class LLMController {
   constructor(private readonly service: LLMService) {}
   public async handle(message: MessageEvent, say: SayFn): Promise<void> {
+    const ts = message.ts;
     let text = '',
       images: string[] = [];
     if (message.subtype === undefined) {
@@ -25,18 +26,22 @@ export class LLMController {
         );
       } catch (e) {
         if (e instanceof Error) {
-          await say(e.message);
+          await say({
+            text: e.message,
+            thread_ts: ts,
+          });
         } else {
-          await say('予期せぬエラーが発生しました');
+          await say({ text: '予期せぬエラーが発生しました', thread_ts: ts });
         }
       }
     }
-    await say(
-      await this.service.execute({
+    await say({
+      text: await this.service.execute({
         prompt: text,
         images,
       }),
-    );
+      thread_ts: ts,
+    });
     images.forEach(async (v) => {
       await fs.rm(v, {
         force: true,
