@@ -5,8 +5,12 @@ import * as fs from 'fs/promises';
 
 export class LLMController {
   constructor(private readonly service: LLMService) {}
-  public async handle(message: MessageEvent, say: SayFn): Promise<void> {
-    const ts = message.ts;
+  public async handle(
+    event: any,
+    message: MessageEvent,
+    say: SayFn,
+  ): Promise<void> {
+    const ts = (!!event ? event.thread_ts : undefined) ?? message.event_ts;
     let text = '',
       images: string[] = [];
     if (message.subtype === undefined) {
@@ -36,10 +40,16 @@ export class LLMController {
       }
     }
     await say({
-      text: await this.service.execute({
-        prompt: text,
-        images,
-      }),
+      text: await this.service.execute(
+        {
+          prompt: text,
+          images,
+        },
+        {
+          channel: message.channel,
+          thread: ts,
+        },
+      ),
       thread_ts: ts,
     });
     images.forEach(async (v) => {

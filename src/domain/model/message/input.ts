@@ -16,10 +16,19 @@ export class ImageInput {
   }
 }
 
+export class Context {
+  constructor(
+    public readonly role: 'user' | 'model',
+    public readonly text: TextInput,
+    public readonly images: ImageInput[],
+  ) {}
+}
+
 export class MultiModalInput {
   constructor(
     public readonly text: TextInput,
     public readonly images: ImageInput[],
+    public readonly contexts: Context[],
   ) {
     if (![!text].every((_) => _)) {
       new GeminiSlackBotError('入力を正しく受け取れませんでした');

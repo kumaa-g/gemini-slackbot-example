@@ -1,5 +1,5 @@
 import { ILLM } from '~/domain/model/llm/llm';
-import { MultiModalInput } from '~/domain/model/message/input';
+import { MultiModalInput, TextInput } from '~/domain/model/message/input';
 import { MessageOutput } from '~/domain/model/message/output';
 import { InlineDataPart, VertexAI } from '@google-cloud/vertexai';
 import { mimeType } from '~/util/image/mime-type';
