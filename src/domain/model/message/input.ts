@@ -1,11 +1,10 @@
 import { GeminiSlackBotError } from '~/domain/error/error';
+import { messages } from '~/domain/error/message';
 
 export class TextInput {
   constructor(public readonly v: string) {
     if (![!!v, v.length >= 0].every((_) => _)) {
-      new GeminiSlackBotError(
-        '1文字以上の文字を入力するか, なんらかのファイルを入力してください',
-      );
+      new GeminiSlackBotError(messages.INVALID_TEXT_INPUT);
     }
   }
 }
@@ -13,7 +12,7 @@ export class TextInput {
 export class ImageInput {
   constructor(public readonly path: string) {
     if (![!!path, path.length > 0].every((_) => _)) {
-      new GeminiSlackBotError('無効なファイルパスです');
+      new GeminiSlackBotError(messages.INVALID_IMAGE_INPUT);
     }
   }
 }
@@ -29,7 +28,7 @@ export class Context {
 export class MultiModalInput {
   constructor(public readonly contexts: Context[]) {
     if (![!!contexts, !!contexts.length].every((_) => _)) {
-      throw new Error('最低一つのプロンプトや, ファイルを入力してください');
+      throw new Error(messages.INVALID_CONTEXT);
     }
   }
 }
