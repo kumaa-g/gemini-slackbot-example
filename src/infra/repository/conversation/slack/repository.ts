@@ -10,11 +10,18 @@ import { stripMention } from '~/util/slack/message';
 import { info } from '~/util/logging/stdout';
 import { messages } from '~/domain/error/message';
 
+interface Bot {
+  id: string;
+  updatedAt: Date;
+}
+
 export class SlackConversationRepository implements IConversationRepository {
+  private bot: Bot | undefined;
   constructor(private readonly client: WebClient) {}
   public async findByIds(input: Partial<Input>): Promise<Context[]> {
     return await retry(
       async () => {
+        // const bot = await this.renewBot(),
         const res = await this.client.conversations.replies({
           channel: input.channel ?? '',
           ts: input.thread ?? '',
@@ -35,8 +42,14 @@ export class SlackConversationRepository implements IConversationRepository {
           res.messages
             .filter((v) => {
               if (!!v.text) {
-                // 事前定義したエラーメッセージが含まれていた場合は context に含めない
-                return !Object.values(messages).includes(v.text);
+                // if messages has pre-defined error message, not include into contexts
+                if (Object.values(messages).includes(v.text)) {
+                  return false;
+                }
+                // only mentioned bot
+                // if (!v.text.includes(bot.id)) {
+                //   return false;
+                // }
               }
               return true;
             })
@@ -69,5 +82,32 @@ export class SlackConversationRepository implements IConversationRepository {
       3,
       1000,
     );
+  }
+  private async renewBot(): Promise<Bot> {
+    // frist time or under 1 hour
+    if (
+      !this.bot ||
+      new Date().getTime() - this.bot.updatedAt.getTime() > 3600 * 1000
+    ) {
+      const res = await retry(
+        async () => {
+          const res = await this.client.bots.info();
+          if (!res.ok) {
+            throw new Error(`slack api don't return "ok"`);
+          }
+          if (!!res.error) {
+            throw new Error(`slack api error: "${res.error}"`);
+          }
+          return res;
+        },
+        3,
+        1000,
+      );
+      this.bot = {
+        id: res.bot?.app_id ?? '',
+        updatedAt: new Date(),
+      };
+    }
+    return this.bot;
   }
 }
