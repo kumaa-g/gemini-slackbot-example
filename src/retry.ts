@@ -9,9 +9,9 @@ export async function retry<T>(
   // if 0, exec just once.
   maxAttepts: number,
   baseBackOff: number,
-): Promise<T | undefined> {
+): Promise<T> {
   let attempts = 0;
-  while (attempts <= maxAttepts) {
+  while (true) {
     try {
       return await fn();
     } catch (e) {
