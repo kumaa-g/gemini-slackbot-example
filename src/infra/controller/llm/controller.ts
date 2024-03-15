@@ -2,6 +2,7 @@ import { MessageEvent, SayFn } from '@slack/bolt';
 import { LLMService } from '~/service/llm/service';
 import { downloadSlackPrivateFile } from '~/util/slack/download';
 import * as fs from 'fs/promises';
+import { stripMention } from '~/util/slack/message';
 
 export class LLMController {
   constructor(private readonly service: LLMService) {}
@@ -14,11 +15,11 @@ export class LLMController {
     let text = '',
       images: string[] = [];
     if (message.subtype === undefined) {
-      text = this.stripMention(message.text ?? '');
+      text = stripMention(message.text ?? '');
     }
     if (message.subtype === 'file_share' && !!message.files) {
       try {
-        text = this.stripMention(message.text ?? '');
+        text = stripMention(message.text ?? '');
         await Promise.all(
           message.files.map(async (v) => {
             if (!!v.url_private_download && !!v.name) {
@@ -57,8 +58,5 @@ export class LLMController {
         force: true,
       });
     });
-  }
-  private stripMention(raw: string): string {
-    return raw.replace(/<\@.+>/, '');
   }
 }
