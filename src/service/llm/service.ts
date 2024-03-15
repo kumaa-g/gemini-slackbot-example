@@ -1,6 +1,7 @@
 import { IConversationRepository } from '~/domain/model/conversation/repository';
 import { ILLM } from '~/domain/model/llm/llm';
 import {
+  Context,
   ImageInput,
   MultiModalInput,
   TextInput,
@@ -35,7 +36,11 @@ export class LLMService {
     });
     return (
       await this.llm.generate(
-        new MultiModalInput(new TextInput(input.prompt), images, contexts),
+        new MultiModalInput(
+          contexts.concat(
+            new Context('user', new TextInput(input.prompt), images),
+          ),
+        ),
       )
     ).v;
   }
