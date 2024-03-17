@@ -21,7 +21,7 @@ export class SlackConversationRepository implements IConversationRepository {
   public async findByIds(input: Partial<Input>): Promise<Context[]> {
     return await retry(
       async () => {
-        // const bot = await this.renewBot(),
+        const bot = await this.renewBot();
         const res = await this.client.conversations.replies({
           channel: input.channel ?? '',
           ts: input.thread ?? '',
@@ -47,9 +47,9 @@ export class SlackConversationRepository implements IConversationRepository {
                   return false;
                 }
                 // only mentioned bot
-                // if (!v.text.includes(bot.id)) {
-                //   return false;
-                // }
+                if (!v.text.includes(bot.id)) {
+                  return false;
+                }
               }
               return true;
             })
