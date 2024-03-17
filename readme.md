@@ -70,3 +70,15 @@ After installing OAuth2 bot token will be appeared in the same page.
 Replace "YOUR_CLOUD_RUN_ENDPOINT" after `npm run deploy`
 
 ![replace subscription url](./docs/images/slack-subscribe-endpoint.png)
+
+## local development
+
+```sh
+$ SLACK_SIGNING_SECRET=YOUR_OWN_ONE \
+  SLACK_OAUTH2_BOT_TOKEN=YOUR_OWN_ONE \
+  SLACK_SOCKET_MODE=true \
+  SLACK_APP_TOKEN=YOUR_OWN_ONE \
+  GCP_PROJECT=YOUR_OWN_ONE \
+  GCP_REGION=YOUR_OWN_ONE \
+  npm run start:dev
+```
