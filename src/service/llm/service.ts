@@ -1,28 +1,46 @@
+import { IConversationRepository } from '~/domain/model/conversation/repository';
 import { ILLM } from '~/domain/model/llm/llm';
 import {
+  Context,
   ImageInput,
   MultiModalInput,
   TextInput,
 } from '~/domain/model/message/input';
 
 export class LLMService {
-  constructor(private readonly llm: ILLM) {}
-  public async execute(input: {
-    prompt: string;
-    images: string[];
-  }): Promise<string> {
+  constructor(
+    private readonly llm: ILLM,
+    private readonly conversation: IConversationRepository,
+  ) {}
+  public async execute(
+    input: {
+      prompt: string;
+      images: string[];
+    },
+    conversation: {
+      channel: string;
+      thread: string;
+    },
+  ): Promise<string> {
     const images: ImageInput[] = [];
     input.images.forEach((v) => {
       try {
-        const x = new ImageInput(v);
-        images.push(x);
+        images.push(new ImageInput(v));
       } catch (e) {
         // TODO: error report
       }
     });
+    const contexts = await this.conversation.findByIds({
+      channel: conversation.channel,
+      thread: conversation.thread,
+    });
     return (
       await this.llm.generate(
-        new MultiModalInput(new TextInput(input.prompt), images),
+        new MultiModalInput(
+          contexts.concat(
+            new Context('user', new TextInput(input.prompt), images),
+          ),
+        ),
       )
     ).v;
   }
