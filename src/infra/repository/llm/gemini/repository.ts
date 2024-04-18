@@ -13,7 +13,7 @@ export class Gemini implements ILLM {
   constructor(private readonly client: VertexAI) {}
   public async generate(input: MultiModalInput): Promise<MessageOutput> {
     const model = this.client.getGenerativeModel({
-        model: 'gemini-pro-vision',
+        model: 'gemini-1.5-pro-preview-0409',
         generation_config: {
           max_output_tokens: 2048,
           temperature: 0.4,
