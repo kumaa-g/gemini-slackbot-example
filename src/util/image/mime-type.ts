@@ -14,6 +14,9 @@ export function mimeType(v: string): string {
     case 'gif': {
       return 'image/gif';
     }
+    case 'webp': {
+      return 'image/webp';
+    }
     default: {
       throw new Error(`拡張子: "${ext}" はサポートされていません`);
     }
