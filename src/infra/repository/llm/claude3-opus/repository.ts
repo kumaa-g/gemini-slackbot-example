@@ -22,7 +22,7 @@ export class Claude3Opus implements ILLM {
     const res = await this.client.messages.create({
       max_tokens: 300,
       messages: await this.toMessages(input),
-      model: 'claude-3-sonnet@20240229',
+      model: 'claude-3-opus@20240229',
       stream: false,
     });
     return new MessageOutput(res.content[0].text);

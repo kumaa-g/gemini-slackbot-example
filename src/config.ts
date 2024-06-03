@@ -9,4 +9,7 @@ export const config = {
     project: process.env.GCP_PROJECT ?? '',
     region: process.env.GCP_REGION ?? 'us-central1',
   },
+  llm: {
+    model: process.env.LLM_MODEL ?? 'gemini',
+  },
 };

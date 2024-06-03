@@ -10,9 +10,8 @@ import { NullPoService } from './service/null-po/service';
 import { config } from './config';
 import { LLMController } from './infra/controller/llm/controller';
 import { LLMService } from './service/llm/service';
-import { Gemini } from './infra/repository/llm/gemini/repository';
-import { VertexAI } from '@google-cloud/vertexai';
 import { SlackConversationRepository } from './infra/repository/conversation/slack/repository';
+import { makeLlmInstance } from './infra/repository/llm/factory';
 
 (async () => {
   const app = new App({
@@ -24,12 +23,7 @@ import { SlackConversationRepository } from './infra/repository/conversation/sla
     controllers = {
       gemini: new LLMController(
         new LLMService(
-          new Gemini(
-            new VertexAI({
-              project: config.gcp.project,
-              location: config.gcp.region,
-            }),
-          ),
+          makeLlmInstance(config.llm.model),
           new SlackConversationRepository(app.client),
         ),
       ),
