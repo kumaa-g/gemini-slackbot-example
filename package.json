@@ -24,6 +24,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@anthropic-ai/vertex-sdk": "^0.4.0",
     "@google-cloud/vertexai": "^0.5.0",
     "@slack/bolt": "^3.17.1"
   },

@@ -82,3 +82,9 @@ $ SLACK_SIGNING_SECRET=YOUR_OWN_ONE \
   GCP_REGION=YOUR_OWN_ONE \
   npm run start:dev
 ```
+
+## environment variables
+
+### optional
+
+- `LLM_MODEL` : "gemini" or "claude3"
