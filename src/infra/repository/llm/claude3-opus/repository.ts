@@ -9,7 +9,7 @@ import { mimeType } from '~/util/image/mime-type';
 
 export function makeClient(): AnthropicVertex {
   return new AnthropicVertex({
-    region: config.gcp.project,
+    region: config.gcp.region,
   });
 }
 
@@ -21,8 +21,8 @@ export class Claude3Opus implements ILLM {
   public async generate(input: MultiModalInput): Promise<MessageOutput> {
     const res = await this.client.messages.create({
       max_tokens: 300,
-      messages: [],
-      model: 'claude-3-opus@20240229',
+      messages: await this.toMessages(input),
+      model: 'claude-3-sonnet@20240229',
       stream: false,
     });
     return new MessageOutput(res.content[0].text);
