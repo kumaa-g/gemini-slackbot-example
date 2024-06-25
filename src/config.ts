@@ -7,7 +7,7 @@ export const config = {
   },
   gcp: {
     project: process.env.GCP_PROJECT ?? '',
-    region: process.env.GCP_REGION ?? 'us-central1',
+    region: process.env.GCP_REGION ?? 'us-east5',
   },
   llm: {
     model: process.env.LLM_MODEL ?? 'gemini',
